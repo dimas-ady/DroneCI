@@ -1,0 +1,21 @@
+--- 
+clone: 
+  depth: 1
+kind: pipeline
+name: Hazukashio
+steps: 
+  - 
+    commands: 
+      - git clone https://$GITHUB_TOKEN@github.com/VISakura/KERNEL-X00T/
+      - cd KERNEL-X00T
+      - "curl https://raw.githubusercontent.com/VISakura/myscripts/kernel.sh | bash"
+    environment: 
+      TELEGRAM_TOKEN: 
+        from_secret: BOT_API_KEY
+      GITHUB_TOKEN:
+        from_secret: GH_TOKEN
+    image: fadlyas/kernel_dockerfile:latest
+    name: VISakura
+    trigger: 
+      branch: 
+        - unified-tes

@@ -1,3 +1,6 @@
-git clone https://$GITHUB_TOKEN@github.com/VISakura/KERNEL-X00T
-cd KERNEL-X00T
-curl https://raw.githubusercontent.com/VISakura/myscripts/master/MASTER.sh | bash
+git clone https://github.com/android-linux-stable/msm-4.4 -b kernel.lnx.4.4.r38-rel
+cd msm-4.4
+git remote remove origin
+git remote add origin https://github.com/Takanashi-Hikari/HIKARI-X00T
+git branch -M main
+git push -u origin main

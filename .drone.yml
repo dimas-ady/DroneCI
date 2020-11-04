@@ -11,7 +11,7 @@ steps:
       TELEGRAM_TOKEN: 
         from_secret: BOT_API_KEY
       GITHUB_TOKEN:
-        from_secret: GH_TOKEN
+        from_secret: GIH_TOKEN
     image: fadlyas/kernel_dockerfile:latest
     name: VISakura
     trigger: 

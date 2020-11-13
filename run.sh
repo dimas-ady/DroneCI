@@ -1,4 +1,4 @@
-git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git -b queue/4.4
-cd linux-stable-rc
-git checkout -b RC-4.4
+git clone https://github.com/psndna88/AGNi_pureMIUI -b LA.UM.8.2.1.r1-05700-sdm660-4.14
+cd AGNI_pureMIUI
+git checkout -b CAF-4.14
 git push https://$GITHUB_TOKEN@github.com/Takanashi-Hikari/CAF-TEA.git

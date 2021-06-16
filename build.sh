@@ -150,12 +150,11 @@ exports() {
 	export KBUILD_BUILD_USER="DroneCI"
 	export ARCH=arm64
 	export SUBARCH=arm64
-        
-        KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
-        
+   
   if [ $COMPILER = "gcc" ]
   then
-	PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
+    KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
+	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
 	export PATH KBUILD_COMPILER_STRING

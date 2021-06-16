@@ -46,11 +46,11 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=sdm660_defconfig
+DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER=gcc
+COMPILER="clang"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -128,15 +128,19 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
  clone() {
 	echo " "
-	if [ $COMPILER = "gcc" ]
+	if [ $COMPILER = "gcc 4.9" ]
 	then
 		msg "|| Cloning GCC 9.3.0 baremetal ||"
 		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
-                git clone --depth=1 https://github.com/NusantaraDevs/clang -b dev/10.0 $KERNEL_DIR/clang
-                CLANG_DIR=$KERNEL_DIR/clang
 		GCC64_DIR=$KERNEL_DIR/gcc64
 		GCC32_DIR=$KERNEL_DIR/gcc32
+	fi
+	
+	if [ $COMPILER = "clang" ]
+	then
+	  git clone --depth=1 https://github.com/NusantaraDevs/clang -b dev/10.0 $KERNEL_DIR/clang
+    CLANG_DIR=$KERNEL_DIR/clang
 	fi
 
 	msg "|| Cloning Anykernel ||" 
@@ -151,10 +155,16 @@ exports() {
 	export ARCH=arm64
 	export SUBARCH=arm64
    
-  if [ $COMPILER = "gcc" ]
+  if [ $COMPILER = "gcc 4.9" ]
   then
     KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
+	fi
+	
+	if [ $COMPILER = "clang" ]
+	then
+	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang10 --version | head -n 1)
+	  PATH=$CLANG_DIR/bin/:/usr/bin:$PATH
 	fi
 
 	export PATH KBUILD_COMPILER_STRING

@@ -50,7 +50,7 @@ DEFCONFIG=sdm660_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER=clang
+COMPILER=gcc
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -128,6 +128,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
  clone() {
 	echo " "
+	if [ $COMPILER = "gcc" ]
+	then
 		msg "|| Cloning GCC 9.3.0 baremetal ||"
 		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
@@ -135,6 +137,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
                 CLANG_DIR=$KERNEL_DIR/clang
 		GCC64_DIR=$KERNEL_DIR/gcc64
 		GCC32_DIR=$KERNEL_DIR/gcc32
+	fi
 
 	msg "|| Cloning Anykernel ||" 
 	git clone --depth 1 --no-single-branch https://github.com/vcyzteen/AnyKernel3 -b master
@@ -149,7 +152,11 @@ exports() {
 	export SUBARCH=arm64
         
         KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
+        
+  if [ $COMPILER = "gcc" ]
+  then
 	PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
+	fi
 
 	export PATH KBUILD_COMPILER_STRING
 	export BOT_MSG_URL="https://api.telegram.org/bot$token/sendMessage"
@@ -270,7 +277,7 @@ gen_zip() {
 	if [ "$PTTG" = 1 ]
  	then
  	  msg "Sending to Telegram..."
-		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s) %0A %0A Test Build, maybe not Stable"
+		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 		msg "Kernel succesfully sended"
 	fi
 	cd ..

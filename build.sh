@@ -128,7 +128,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
  clone() {
 	echo " "
-	if [ $COMPILER == "gcc 4.9" ]
+	if [ "$COMPILER" == "gcc 4.9" ]
 	then
 		msg "// Cloning GCC 4.9 //"
 		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
@@ -137,14 +137,14 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 		GCC32_DIR=$KERNEL_DIR/gcc32
 	fi
 	
-	if [ $COMPILER == "clang" ]
+	if [ "$COMPILER" == "clang" ]
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
     CLANG_DIR=$KERNEL_DIR/clang
 	fi
 
-	msg "|| Cloning Anykernel ||" 
+	msg "// Cloning Anykernel //" 
 	git clone --depth 1 --no-single-branch https://github.com/vcyzteen/AnyKernel3 -b master
 	sed -i "s/kernel.string=.*/kernel.string=$ZIPNAME by Dimas Ady/g" AnyKernel3/anykernel.sh
 }
@@ -156,13 +156,13 @@ exports() {
 	export ARCH=arm64
 	export SUBARCH=arm64
    
-  if [ $COMPILER == "gcc 4.9" ]
+  if [ "$COMPILER" == "gcc 4.9" ]
   then
     KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 	
-	if [ $COMPILER = "clang" ]
+	if [ "$COMPILER" = "clang" ]
 	then
 	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
 	  PATH=$CLANG_DIR/bin/:$PATH
@@ -226,7 +226,7 @@ build_kernel() {
 
 	BUILD_START=$(date +"%s")
 	
-	if [ $COMPILER == "clang" ]
+	if [ "$COMPILER" == "clang" ]
 	then
 		MAKE+=(
 			CROSS_COMPILE=aarch64-linux-gnu- \
@@ -244,7 +244,7 @@ build_kernel() {
 		MAKE+=( -s )
 	fi
   
-  if [ $COMPILER == "gcc 4.9" ]
+  if [ "$COMPILER" == "gcc 4.9" ]
   then
 	  msg "|| Started Compilation ||"
   	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-

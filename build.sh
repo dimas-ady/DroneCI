@@ -42,7 +42,7 @@ ZIPNAME="XD Kernel"
 MODEL="Asus Max Pro M1"
 
 # The codename of the device
-DEVICE="X00T"
+DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
@@ -172,6 +172,7 @@ tg_post_msg() {
 
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
+	msg "Checking MD5sum"
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
 	#Show the Checksum alongwith caption
@@ -262,12 +263,13 @@ gen_zip() {
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
 	fi
 	cd AnyKernel3 || exit
-	zip -r9 $ZIPNAME-$DEVICE-"$DATE" * -x .git README.md
+	zip -r9 "$ZIPNAME-$DEVICE-$DATE" * -x .git README.md
 
 	## Prepare a final zip variable
 	ZIP_FINAL="$ZIPNAME-$DEVICE-$DATE.zip"
 	if [ "$PTTG" = 1 ]
  	then
+ 	  msg "Sending to Telegram..."
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 	fi
 	cd ..

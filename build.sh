@@ -60,7 +60,7 @@ PTTG=1
 	if [ $PTTG = 1 ]
 	then
 		# Set Telegram Chat ID
-		CHATID="661131869"
+		CHATID="-1001328821526"
 	fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
@@ -101,13 +101,13 @@ then
 	if [ -n "$CIRCLECI" ]
 	then
 		export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
-		export KBUILD_BUILD_HOST="Iocode"
+		export KBUILD_BUILD_HOST="Dimas-Ady"
 		export CI_BRANCH=$CIRCLE_BRANCH
 	fi
 	if [ -n "$DRONE" ]
 	then
 		export KBUILD_BUILD_VERSION=$DRONE_BUILD_NUMBER
-		export KBUILD_BUILD_HOST=Iocode
+		export KBUILD_BUILD_HOST=DimasAdy
 		export CI_BRANCH=$DRONE_BRANCH
 	else
 		echo "Not presetting Build Version"

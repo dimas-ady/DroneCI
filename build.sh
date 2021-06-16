@@ -39,7 +39,7 @@ KERNEL_DIR="$(pwd)"
 ZIPNAME="XD Kernel"
 
 # The name of the device for which the kernel is built
-MODEL="Asus Max Pro M1"
+MODEL="Asus Zenfone Max Pro M1"
 
 # The codename of the device
 DEVICE="X00TD"
@@ -90,7 +90,7 @@ LOG_DEBUG=0
 
 ## Set defaults first
 DISTRO=$(cat /etc/issue)
-KBUILD_BUILD_HOST=XLLC
+KBUILD_BUILD_HOST=DroneCI
 CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 token=$TELEGRAM_TOKEN
 export KBUILD_BUILD_HOST CI_BRANCH
@@ -98,7 +98,7 @@ export KBUILD_BUILD_HOST CI_BRANCH
 ## Check for CI
 if [ -n "$CI" ]
 then
-	if [ -n "$CIRCLECI" ]
+	if [ -n "$CIRCLECI" ] 
 	then
 		export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
 		export KBUILD_BUILD_HOST="Dimas-Ady"
@@ -107,7 +107,7 @@ then
 	if [ -n "$DRONE" ]
 	then
 		export KBUILD_BUILD_VERSION=$DRONE_BUILD_NUMBER
-		export KBUILD_BUILD_HOST=DimasAdy
+		export KBUILD_BUILD_HOST=DroneCI
 		export CI_BRANCH=$DRONE_BRANCH
 	else
 		echo "Not presetting Build Version"
@@ -144,7 +144,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 ##------------------------------------------------------##
 
 exports() {
-	export KBUILD_BUILD_USER="XLLC"
+	export KBUILD_BUILD_USER="DroneCI"
 	export ARCH=arm64
 	export SUBARCH=arm64
         
@@ -270,7 +270,7 @@ gen_zip() {
 	if [ "$PTTG" = 1 ]
  	then
  	  msg "Sending to Telegram..."
-		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s) \n Test Build, maybe don't Stable"
 		msg "Kernel succesfully sended"
 	fi
 	cd ..

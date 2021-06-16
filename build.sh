@@ -164,7 +164,7 @@ exports() {
 	if [ $COMPILER = "clang" ]
 	then
 	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang10 --version | head -n 1)
-	  PATH=$CLANG_DIR/bin/:/usr/bin:$PATH
+	  PATH=$CLANG_DIR/bin/:$CLANG_DIR/bin:/usr/bin:$PATH
 	fi
 
 	export PATH KBUILD_COMPILER_STRING

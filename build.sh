@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc"
+COMPILER="gcc 4.9"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1

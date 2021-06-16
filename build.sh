@@ -80,7 +80,7 @@ SILENCE=0
 
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)
-LOG_DEBUG=1
+LOG_DEBUG=0
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
@@ -161,7 +161,7 @@ exports() {
 ##---------------------------------------------------------##
 
 tg_post_msg() {
-	curl -s -X POST "$BOT_MSG_URL" -d chat_id="-1001171905830" \
+	curl -s -X POST "$BOT_MSG_URL" -d chat_id=$CHATID \
 	-d "disable_web_page_preview=true" \
 	-d "parse_mode=html" \
 	-d text="$1"
@@ -271,6 +271,7 @@ gen_zip() {
  	then
  	  msg "Sending to Telegram..."
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+		msg "Kernel succesfully sended"
 	fi
 	cd ..
 }

@@ -135,11 +135,11 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
 		GCC64_DIR=$KERNEL_DIR/gcc64
 		GCC32_DIR=$KERNEL_DIR/gcc32
-	fi
 	
-	if [ $COMPILER = "clang" ]
+	elif [ $COMPILER = "clang" ]
 	then
-	  git clone --depth=1 https://github.com/NusantaraDevs/clang -b dev/10.0 $KERNEL_DIR/clang
+	  msg "// Cloning Proton Clang //"
+	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
     CLANG_DIR=$KERNEL_DIR/clang
 	fi
 
@@ -159,12 +159,11 @@ exports() {
   then
     KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
-	fi
 	
-	if [ $COMPILER = "clang" ]
+	elif [ $COMPILER = "clang" ]
 	then
-	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang10 --version | head -n 1)
-	  PATH=$CLANG_DIR/bin/:$CLANG_DIR/bin:/usr/bin:$PATH
+	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
+	  PATH=$CLANG_DIR/bin/:$PATH
 	fi
 
 	export PATH KBUILD_COMPILER_STRING

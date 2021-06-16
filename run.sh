@@ -1,3 +1,3 @@
-git clone https://$GITHUB_TOKEN@github.com/VISakura/KERNEL-X00T
+git clone https://github.com/dimas-ady/kernel_asus_sdm660.git
 cd KERNEL-X00T
-curl https://raw.githubusercontent.com/VISakura/myscripts/master/MASTER.sh | bash
+bash build.sh

@@ -270,7 +270,7 @@ gen_zip() {
 	if [ "$PTTG" = 1 ]
  	then
  	  msg "Sending to Telegram..."
-		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s) :: Test Build, maybe not Stable"
+		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s) %0A %0A Test Build, maybe not Stable"
 		msg "Kernel succesfully sended"
 	fi
 	cd ..

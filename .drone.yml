@@ -13,7 +13,7 @@ steps:
       GITHUB_TOKEN:
         from_secret: GH_TOKEN
     image: fadlyas/kernel_dockerfile:latest
-    name: VISakura
+    name: XD Kernel
     trigger: 
       branch: 
         - unified-tes

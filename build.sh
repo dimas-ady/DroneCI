@@ -46,11 +46,11 @@ DEVICE="X00T"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=darkonah_defconfig
+DEFCONFIG=X00T_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER=clang
+COMPILER=gcc
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -138,7 +138,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
 	msg "|| Cloning Anykernel ||" 
 	git clone --depth 1 --no-single-branch https://github.com/vcyzteen/AnyKernel3 -b master
-	sed -i "s/kernel.string=.*/kernel.string=$ZIPNAME by Baka/g" AnyKernel3/anykernel.sh
+	sed -i "s/kernel.string=.*/kernel.string=$ZIPNAME by Dimas Ady/g" AnyKernel3/anykernel.sh
 }
 
 ##------------------------------------------------------##

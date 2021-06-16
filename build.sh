@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
+COMPILER="gcc"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -234,16 +234,20 @@ build_kernel() {
 			OBJDUMP=llvm-objdump \
 			STRIP=llvm-strip
 		)
-	fi
+		make -j"$PROCS" O=out
+	fi  
 	
 	if [ $SILENCE = "1" ]
 	then
 		MAKE+=( -s )
 	fi
-
-	msg "|| Started Compilation ||"
-	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-
-	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-android-
+  
+  if [ $COMPILER = "gcc 4.9" ]
+  then
+	  msg "|| Started Compilation ||"
+  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-
+  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-android-
+  fi
 
 		BUILD_END=$(date +"%s")
 		DIFF=$((BUILD_END - BUILD_START))

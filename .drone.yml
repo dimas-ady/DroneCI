@@ -2,7 +2,7 @@
 clone: 
   depth: 1
 kind: pipeline
-name: Hazukashio
+name: XD Kernel
 steps: 
   - 
     commands: 

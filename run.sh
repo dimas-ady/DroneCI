@@ -4,4 +4,4 @@ mkdir test
 cd test
 mkdir a
 ls
-bash ./build.sh
+bash ../build.sh

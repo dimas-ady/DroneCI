@@ -155,7 +155,7 @@ exports() {
 	export ARCH=arm64
 	export SUBARCH=arm64
    
-  if [ $COMPILER = "gcc 4.9" ]
+  if [ $COMPILER == "gcc 4.9" ]
   then
     KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
@@ -224,7 +224,7 @@ build_kernel() {
 
 	BUILD_START=$(date +"%s")
 	
-	if [ $COMPILER = "clang" ]
+	if [ $COMPILER == "clang" ]
 	then
 		MAKE+=(
 			CROSS_COMPILE=aarch64-linux-gnu- \
@@ -242,7 +242,7 @@ build_kernel() {
 		MAKE+=( -s )
 	fi
   
-  if [ $COMPILER = "gcc 4.9" ]
+  if [ $COMPILER == "gcc 4.9" ]
   then
 	  msg "|| Started Compilation ||"
   	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-

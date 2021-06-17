@@ -177,8 +177,8 @@ exports() {
 	
 	elif [ "$COMPILER" = "clang" ]
 	then
-  	KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/clang --version | head -n 1)
-	  PATH=$CLANG_DIR/bin/:$PATH
+  	KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
+	  PATH=$CLANG_DIR/bin/:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin/$PATH
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
@@ -252,7 +252,8 @@ build_kernel() {
 			CC=clang \
 			AR=llvm-ar \
 			OBJDUMP=llvm-objdump \
-			STRIP=llvm-strip
+			STRIP=llvm-strip \
+			CLANG_TRIPLE=aarch64-linux-gnu-
 		)
 		make -j"$PROCS" O=out
 	fi  

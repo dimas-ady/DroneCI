@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc 4.9"
+COMPILER="clang"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=0
@@ -146,7 +146,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
 	 msg "// Installing Neccesary Package"
 	 sudo apt-get -y install gcc llvm lld g++-multilib clang
-    msg "// Clonig GCC 4.9 //"
+    msg "// Clonig GCC 10 //"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
  
@@ -178,7 +178,6 @@ exports() {
 	elif [ "$COMPILER" = "clang" ]
 	then
   	KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
-	  PATH=$CLANG_DIR/bin/:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin/$PATH
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
@@ -246,17 +245,12 @@ build_kernel() {
 	
 	if [ "$COMPILER" == "clang" ]
 	then
-		MAKE+=(
-			CROSS_COMPILE=aarch64-linux-android- \
-			CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-			CC=clang \
-			AR=llvm-ar \
-			OBJDUMP=llvm-objdump \
-			STRIP=llvm-strip \
-			CLANG_TRIPLE=aarch64-linux-gnu-
-		)
-		echo "Compiling..."
-		make -j"$PROCS" O=out
+	  PATH="$CLANG_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:${PATH}"
+		make -j"$PROCS" O=out \
+		              CC=clang \
+		              CLANG_TRIPLE=aarch64-linux-gnu- \
+		              CROSS_COMPILE=aarch64-linux-android- \
+		              CROSS_COMPILE_ARM32=arm-linux-androideabi
 	fi  
 	
 	if [ $SILENCE = "1" ]

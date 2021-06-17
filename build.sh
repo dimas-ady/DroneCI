@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
+COMPILER="gcc 10"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -148,6 +148,12 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
 	fi
 
+  if ["$COMPILER" == "gcc 10"]
+  then
+    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
+    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+  fi
+
 	msg "// Cloning Anykernel //" 
 	git clone --depth 1 --no-single-branch https://github.com/vcyzteen/AnyKernel3 -b master
 	sed -i "s/kernel.string=.*/kernel.string=$ZIPNAME by Dimas Ady/g" AnyKernel3/anykernel.sh
@@ -169,6 +175,12 @@ exports() {
 	if [ "$COMPILER" = "clang" ]
 	then
 	  PATH=$CLANG_DIR/bin/:$PATH
+	fi
+	
+	if ["$COMPILER" == "gcc 10"]
+	then
+	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
+	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
 	export PATH KBUILD_COMPILER_STRING
@@ -208,7 +220,7 @@ tg_post_build() {
 build_kernel() {
 	if [ $INCREMENTAL = 0 ]
 	then
-		msg "|| Cleaning Sources ||"
+		msg "// Cleaning Sources //"
 		make clean && make mrproper && rm -rf out
 	fi
 
@@ -248,6 +260,13 @@ build_kernel() {
 	fi
   
   if [ "$COMPILER" == "gcc 4.9" ]
+  then
+	  msg "|| Started Compilation ||"
+  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-
+  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-android-
+  fi
+  
+  if [ "$COMPILER" == "gcc 10" ]
   then
 	  msg "|| Started Compilation ||"
   	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-

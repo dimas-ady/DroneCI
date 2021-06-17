@@ -179,7 +179,7 @@ exports() {
 	
 	elif [ "$COMPILER" = "clang" ]
 	then
-  	KBUILD_COMPILER_STRING=$("CLANG_DIR"/bin/clang --version | head -n 1)
+  	KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
 	  PATH=$CLANG_DIR/bin/:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin/$PATH
 	
 	elif [ "$COMPILER" == "gcc 10" ]
@@ -250,13 +250,14 @@ build_kernel() {
 	then
 		MAKE+=(
 			CROSS_COMPILE=aarch64-linux-android- \
-			CROSS_COMPILE_ARM32=arm-linux-androideabi-  \
+			CROSS_COMPILE_ARM32=arm-linux-androideabi- \
 			CC=clang \
 			AR=llvm-ar \
 			OBJDUMP=llvm-objdump \
 			STRIP=llvm-strip \
 			CLANG_TRIPLE=aarch64-linux-gnu-
 		)
+		echo "Compiling..."
 		make -j"$PROCS" O=out
 	fi  
 	

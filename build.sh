@@ -153,6 +153,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
     msg "// Cloning GCC 10"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    ls
   fi
 
 	msg "// Cloning Anykernel //" 
@@ -178,7 +179,7 @@ exports() {
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
-	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
+	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
@@ -268,8 +269,8 @@ build_kernel() {
   if [ "$COMPILER" == "gcc 10" ]
   then
 	  msg "|| Started Compilation ||"
-  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-
-  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-android-
+  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-gnueabi-
+  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-gnu-
   fi
 
 		BUILD_END=$(date +"%s")

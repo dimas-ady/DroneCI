@@ -132,23 +132,23 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
  clone() {
 	echo " "
+	
+	# Cloning The Compiler and Toolchain
 	if [ "$COMPILER" == "gcc 4.9" ]
 	then
 		msg "// Cloning GCC 4.9 //"
 		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
-	fi
 	
-	if [ "$COMPILER" == "clang" ]
+	elif [ "$COMPILER" == "clang" ]
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
     msg "// Clonig GCC 10 //"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
-	fi
 
-  if ["$COMPILER" == "gcc 10"]
+  elif ["$COMPILER" == "gcc 10"]
   then
     msg "// Cloning GCC 10"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64

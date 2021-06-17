@@ -82,6 +82,9 @@ SILENCE=0
 # 1 is YES | 0 is NO(default)
 LOG_DEBUG=0
 
+GCC64_DIR=$KERNEL_DIR/gcc64
+GCC32_DIR=$KERNEL_DIR/gcc32
+
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
 
@@ -133,8 +136,6 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 		msg "// Cloning GCC 4.9 //"
 		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
-		GCC64_DIR=$KERNEL_DIR/gcc64
-		GCC32_DIR=$KERNEL_DIR/gcc32
 	fi
 	
 	if [ "$COMPILER" == "clang" ]
@@ -142,6 +143,9 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
     CLANG_DIR=$KERNEL_DIR/clang
+    msg "// Clonig GCC 10 //"
+    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
+    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
 	fi
 
 	msg "// Cloning Anykernel //" 

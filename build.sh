@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc 10"
+COMPILER="gcc 4.9"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -137,8 +137,10 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	if [ "$COMPILER" == "gcc 4.9" ]
 	then
 		msg "// Cloning GCC 4.9 //"
-		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
+		#git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
+		#git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
+	  git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/RyuujiX/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 	
 	elif [ "$COMPILER" == "clang" ]
 	then
@@ -226,7 +228,7 @@ build_kernel() {
 
 	if [ "$PTTG" = 1 ]
  	then
-		tg_post_msg "<b>🔨 $KBUILD_BUILD_VERSION CI Build Triggered</b>%0A<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/Jakarta date)</code>%0A<b>Device : </b><code>$MODEL [$DEVICE]</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$PROCS</code>%0A<b>Compiler Used : </b><code>$KBUILD_COMPILER_STRING</code>%0a<b>Branch : </b><code>$CI_BRANCH</code>%0A<b>Top Commit : </b><a href='$DRONE_COMMIT_LINK'><code>$COMMIT_HEAD</code></a>%0A" "$CHATID"
+		tg_post_msg "<b>Docker OS: </b><code>$DISTRO</code>%0A<b>Kernel Version : </b><code>$KERVER</code>%0A<b>Date : </b><code>$(TZ=Asia/Jakarta date)</code>%0A<b>Device : </b><code>$MODEL [$DEVICE]</code>%0A<b>Pipeline Host : </b><code>$KBUILD_BUILD_HOST</code>%0A<b>Host Core Count : </b><code>$PROCS</code>%0A<b>Compiler Used : </b><code>$KBUILD_COMPILER_STRING</code>%0a<b>Branch : </b><code>$CI_BRANCH</code>%0A<b>Top Commit : </b><a href='$DRONE_COMMIT_LINK'><code>$COMMIT_HEAD</code></a>%0A" "$CHATID"
 	fi
 
 	make O=out $DEFCONFIG

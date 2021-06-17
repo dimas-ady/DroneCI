@@ -144,11 +144,11 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
-	 msg "// Installing Neccesary Package"
-	 sudo apt-get -y install gcc llvm lld g++-multilib clang
-    msg "// Clonig GCC 10 //"
-    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
-    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    msg "// Clonig GCC 4.9 //"
+    #git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
+    #git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $GCC64_DIR
+    git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 $GCC32_DIR
  
   elif [ "$COMPILER" == "gcc 10" ]
   then

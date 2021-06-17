@@ -53,7 +53,7 @@ DEFCONFIG=X00TD_defconfig
 COMPILER="clang"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
-INCREMENTAL=1
+INCREMENTAL=0
 
 # Push ZIP to Telegram. 1 is YES | 0 is NO(default)
 PTTG=1
@@ -146,9 +146,11 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
-    msg "// Clonig GCC 10 //"
-    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
-    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    msg "// Clonig GCC 4.9 //"
+    #git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
+    #git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/RyuujiX/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
   elif [ "$COMPILER" == "gcc 10" ]
   then
@@ -177,7 +179,7 @@ exports() {
 	
 	elif [ "$COMPILER" = "clang" ]
 	then
-  	KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
+  	KBUILD_COMPILER_STRING=$("CLANG_DIR"/bin/clang --version | head -n 1)
 	  PATH=$CLANG_DIR/bin/:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin/$PATH
 	
 	elif [ "$COMPILER" == "gcc 10" ]
@@ -247,8 +249,8 @@ build_kernel() {
 	if [ "$COMPILER" == "clang" ]
 	then
 		MAKE+=(
-			CROSS_COMPILE=aarch64-linux-gnu- \
-			CROSS_COMPILE_ARM32=arm-linux-gnueabi-  \
+			CROSS_COMPILE=aarch64-linux-android- \
+			CROSS_COMPILE_ARM32=arm-linux-androideabi-  \
 			CC=clang \
 			AR=llvm-ar \
 			OBJDUMP=llvm-objdump \

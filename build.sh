@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc 4.9"
+COMPILER="clang"
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=1
@@ -152,7 +152,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
   elif [ "$COMPILER" == "gcc 10" ]
   then
-    msg "// Cloning GCC 10"
+    msg "// Cloning GCC 10 //"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
     ls
@@ -177,6 +177,7 @@ exports() {
 	
 	elif [ "$COMPILER" = "clang" ]
 	then
+  	KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/clang --version | head -n 1)
 	  PATH=$CLANG_DIR/bin/:$PATH
 	
 	elif [ "$COMPILER" == "gcc 10" ]
@@ -247,7 +248,7 @@ build_kernel() {
 	then
 		MAKE+=(
 			CROSS_COMPILE=aarch64-linux-gnu- \
-			CROSS_COMPILE_ARM32=$GCC32_DIR/arm-linux-gnueabi-  \
+			CROSS_COMPILE_ARM32=arm-linux-gnueabi-  \
 			CC=clang \
 			AR=llvm-ar \
 			OBJDUMP=llvm-objdump \

@@ -146,6 +146,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
+	 msg "// Installing Neccesary Package"
+	 sudo apt-get -y install gcc llvm lld g++-multilib clang
     msg "// Clonig GCC 4.9 //"
     #git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     #git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32

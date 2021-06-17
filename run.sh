@@ -9,4 +9,4 @@ cd android_kernel_asus_sdm660
 bash ../build.sh
 else
   echo "Gagal"
-fi;
+fi

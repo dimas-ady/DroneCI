@@ -137,10 +137,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	if [ "$COMPILER" == "gcc 4.9" ]
 	then
 		msg "// Cloning GCC 4.9 //"
-		#git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
-		#git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
-	  git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/RyuujiX/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
+		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
+		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
 	
 	elif [ "$COMPILER" == "clang" ]
 	then
@@ -149,22 +147,20 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	 msg "// Installing Neccesary Package"
 	 sudo apt-get -y install gcc llvm lld g++-multilib clang
     msg "// Clonig GCC 4.9 //"
-    #git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
-    #git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
-    git clone --depth=1 https://github.com/RyuujiX/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/RyuujiX/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
-
+    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
+    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+ 
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
     ls
+    
   fi
 
-	msg "// Cloning Anykernel //" 
-	git clone --depth 1 --no-single-branch https://github.com/vcyzteen/AnyKernel3 -b master
-	sed -i "s/kernel.string=.*/kernel.string=$ZIPNAME by Dimas Ady/g" AnyKernel3/anykernel.sh
+	msg "// Cloning Anykernel3 //" 
+	git clone https://github.com/dimas-ady/AnyKernel3.git
 }
 
 ##------------------------------------------------------##

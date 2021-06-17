@@ -168,7 +168,6 @@ exports() {
 	
 	if [ "$COMPILER" = "clang" ]
 	then
-	  KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
 	  PATH=$CLANG_DIR/bin/:$PATH
 	fi
 
@@ -234,7 +233,7 @@ build_kernel() {
 	then
 		MAKE+=(
 			CROSS_COMPILE=aarch64-linux-gnu- \
-			CROSS_COMPILE_ARM32=arm-linux-gnueabi-  \
+			CROSS_COMPILE_ARM32=$GCC32_DIR/arm-linux-gnueabi-  \
 			CC=clang \
 			AR=llvm-ar \
 			OBJDUMP=llvm-objdump \

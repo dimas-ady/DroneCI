@@ -137,24 +137,22 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	if [ "$COMPILER" == "gcc 4.9" ]
 	then
 		msg "// Cloning GCC 4.9 //"
-		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $KERNEL_DIR/gcc32
+		git clone --depth=1 https://github.com/KudProject/aarch64-linux-android-4.9 -b master $GCC64_DIR
+		git clone --depth=1 https://github.com/KudProject/arm-linux-androideabi-4.9 -b master $GCC32_DIR
 	
 	elif [ "$COMPILER" == "clang" ]
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
     msg "// Clonig GCC 4.9 //"
-    #git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
-    #git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $GCC64_DIR
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 $GCC32_DIR
  
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
-    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
-    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
+    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $GCC64_DIR
+    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $GCC32_DIR
     ls
     
   fi
@@ -178,6 +176,7 @@ exports() {
 	elif [ "$COMPILER" = "clang" ]
 	then
   	KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
+  	PATH="$CLANG_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:${PATH}"
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
@@ -206,7 +205,7 @@ tg_post_msg() {
 
 tg_post_build() {
 	#Post MD5Checksum alongwith for easeness
-	msg "Checking MD5sum"
+	msg "Checking MD5sum..."
 	MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 
 	#Show the Checksum alongwith caption
@@ -245,7 +244,6 @@ build_kernel() {
 	
 	if [ "$COMPILER" == "clang" ]
 	then
-	  PATH="$CLANG_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:${PATH}"
 		make -j"$PROCS" O=out \
 		              CC=clang \
 		              CLANG_TRIPLE=aarch64-linux-gnu- \
@@ -267,7 +265,7 @@ build_kernel() {
   
   if [ "$COMPILER" == "gcc 10" ]
   then
-	  msg "|| Started Compilation ||"
+	  msg "// Start Compiling //"
   	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-gnueabi-
   	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-gnu-
   fi
@@ -277,10 +275,10 @@ build_kernel() {
 
 		if [ -f "$KERNEL_DIR"/out/arch/arm64/boot/Image.gz-dtb ] 
 	    then
-	    	msg "|| Kernel successfully compiled ||"
+	    	msg "// Kernel successfully compiled //"
 	    	if [ $BUILD_DTBO = 1 ]
 			then
-				msg "|| Building DTBO ||"
+				msg "// Building DTBO //"
 				tg_post_msg "<code>Building DTBO..</code>" "$CHATID"
 				python2 "$KERNEL_DIR/scripts/ufdt/libufdt/utils/src/mkdtboimg.py" \
 					create "$KERNEL_DIR/out/arch/arm64/boot/dtbo.img" --page_size=4096 "$KERNEL_DIR/out/arch/arm64/boot/dts/qcom/sm6150-idp-overlay.dtbo"
@@ -298,7 +296,7 @@ build_kernel() {
 ##--------------------------------------------------------------##
 
 gen_zip() {
-	msg "|| Zipping into a flashable zip ||"
+	msg "// Zipping into a flashable zip //"
 	mv "$KERNEL_DIR"/out/arch/arm64/boot/Image.gz-dtb AnyKernel3/Image.gz-dtb
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -313,7 +311,7 @@ gen_zip() {
  	then
  	  msg "Sending to Telegram..."
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
-		msg "Kernel succesfully sended"
+		msg "Kernel succesfully sended to Telegram Channel"
 	fi
 	cd ..
 }

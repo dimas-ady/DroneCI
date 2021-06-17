@@ -84,6 +84,7 @@ LOG_DEBUG=0
 
 GCC64_DIR=$KERNEL_DIR/gcc64
 GCC32_DIR=$KERNEL_DIR/gcc32
+CLANG_DIR=$KERNEL_DIR/clang
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
@@ -142,7 +143,6 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 	then
 	  msg "// Cloning Proton Clang //"
 	  git clone --depth=1 https://github.com/kdrag0n/proton-clang $KERNEL_DIR/clang
-    CLANG_DIR=$KERNEL_DIR/clang
     msg "// Clonig GCC 10 //"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
@@ -150,6 +150,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 
   if ["$COMPILER" == "gcc 10"]
   then
+    msg "// Cloning GCC 10"
     git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $KERNEL_DIR/gcc64
     git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $KERNEL_DIR/gcc32
   fi

@@ -185,7 +185,7 @@ exports() {
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
-	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-gnu-gcc --version | head -n 1)
+	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-maestro-linux-gnu-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
@@ -293,6 +293,7 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
+				tg_post_build "error.log" "$CHATID" "Log Error"
 			fi
 		fi
 	
@@ -324,10 +325,5 @@ gen_zip() {
 clone
 exports
 build_kernel
-
-if [ $LOG_DEBUG = "1" ]
-then
-	tg_post_build "error.log" "$CHATID" "Debug Mode Logs"
-fi
 
 ##----------------*****-----------------------------##

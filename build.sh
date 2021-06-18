@@ -50,7 +50,16 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
+COMPILER="gcc 10"
+  if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
+  then
+    IS_GCC=Y
+  fi
+
+# Compiler Directory
+GCC64_DIR=$KERNEL_DIR/gcc64
+GCC32_DIR=$KERNEL_DIR/gcc32
+CLANG_DIR=$KERNEL_DIR/clang
 
 # Clean source prior building. 1 is NO(default) | 0 is YES
 INCREMENTAL=0
@@ -81,10 +90,6 @@ SILENCE=0
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)
 LOG_DEBUG=0
-
-GCC64_DIR=$KERNEL_DIR/gcc64
-GCC32_DIR=$KERNEL_DIR/gcc32
-CLANG_DIR=$KERNEL_DIR/clang
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
@@ -151,8 +156,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
-    git clone --depth=1 https://github.com/theradcolor/aarch64-linux-gnu.git $GCC64_DIR
-    git clone --depth=1 https://github.com/theradcolor/arm-linux-gnueabi.git $GCC32_DIR
+    git clone --depth=1 https://github.com/baalajimaestro/aarch64-maestro-linux-android.git -b 05022020 $GCC64_DIR
+    git clone --depth=1 https://github.com/baalajimaestro/arm-maestro-linux-gnueabi.git $GCC32_DIR
     ls
     
   fi
@@ -266,8 +271,8 @@ build_kernel() {
   if [ "$COMPILER" == "gcc 10" ]
   then
 	  msg "// Start Compiling //"
-  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-gnueabi-
-  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-gnu-
+  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-maestro-linux-gnueabi-
+  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-maestro-linux-gnu-
   fi
 
 		BUILD_END=$(date +"%s")

@@ -271,8 +271,12 @@ build_kernel() {
   if [ "$COMPILER" == "gcc 10" ]
   then
 	  msg "// Start Compiling //"
-  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-eabi-
-  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-elf-
+  	make -j"$PROCS" O=out \
+  	  CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-eabi- \
+  	  CROSS_COMPILE=aarch64-elf- \
+  	  AR=aarch64-elf-ar \
+  	  OBJDUMP=aarch64-elf-objdump
+  	  
   fi
 
 		BUILD_END=$(date +"%s")
@@ -293,7 +297,7 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
-				ls
+				ls out
 			fi
 		fi
 	

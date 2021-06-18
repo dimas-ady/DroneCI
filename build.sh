@@ -156,8 +156,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
-    git clone --depth=1 https://github.com/baalajimaestro/aarch64-maestro-linux-android.git -b 05022020 $GCC64_DIR
-    git clone --depth=1 https://github.com/baalajimaestro/arm-maestro-linux-gnueabi.git $GCC32_DIR
+    git clone --depth=1 https://github.com/mvaisakh/gcc-arm64.git $GCC64_DIR
+    git clone --depth=1 https://github.com/mvaisakh/gcc-arm.git $GCC32_DIR
     ls
     
   fi
@@ -185,7 +185,7 @@ exports() {
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
-	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-maestro-linux-gnu-gcc --version | head -n 1)
+	  KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	fi
 
@@ -271,8 +271,8 @@ build_kernel() {
   if [ "$COMPILER" == "gcc 10" ]
   then
 	  msg "// Start Compiling //"
-  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-maestro-linux-gnueabi-
-  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-maestro-linux-gnu-
+  	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-eabi-
+  	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-elf-
   fi
 
 		BUILD_END=$(date +"%s")
@@ -293,7 +293,7 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
-				tg_post_build "error.log" "$CHATID" "Log Error"
+				ls
 			fi
 		fi
 	

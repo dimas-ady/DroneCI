@@ -152,7 +152,15 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
     msg "// Clonig GCC 4.9 //"
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $GCC64_DIR
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 $GCC32_DIR
- 
+  
+  elif [ "$COMPILER" == "aosp clang" ]
+  then
+    msg "// Cloning AOSP Clang //"
+	  git clone --depth=1 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/master/clang-r416183d.git $KERNEL_DIR/clang
+    msg "// Clonig GCC 4.9 //"
+    git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $GCC64_DIR
+    git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 $GCC32_DIR
+  
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
@@ -178,7 +186,7 @@ exports() {
     KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-linux-android-gcc --version | head -n 1)
 	  PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
 	
-	elif [ "$COMPILER" = "clang" ]
+	elif [ "$COMPILER" = "clang" || "$COMPILER" == "aosp clang" ]
 	then
   	KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
   	PATH="$CLANG_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:${PATH}"
@@ -247,7 +255,7 @@ build_kernel() {
 
 	BUILD_START=$(date +"%s")
 	
-	if [ "$COMPILER" == "clang" ]
+	if [ "$COMPILER" == "clang" || "$COMPILER" == "aosp clang" ]
 	then
 		make -j"$PROCS" O=out \
 		              CC=clang \
@@ -263,7 +271,7 @@ build_kernel() {
   
   if [ "$COMPILER" == "gcc 4.9" ]
   then
-	  msg "|| Started Compilation ||"
+	  msg "// Start Compiling //"
   	export CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-linux-androideabi-
   	make -j"$PROCS" O=out CROSS_COMPILE=aarch64-linux-android-
   fi
@@ -298,7 +306,6 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
-				ls out
 			fi
 		fi
 	
@@ -322,7 +329,7 @@ gen_zip() {
  	then
  	  msg "Sending to Telegram..."
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
-		msg "Kernel succesfully sended to Telegram Channel"
+		msg "Kernel succesfully sended to Telegram Channel!"
 	fi
 	cd ..
 }

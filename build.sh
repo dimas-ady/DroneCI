@@ -50,7 +50,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
+COMPILER="gcc 10"
   if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
   then
     IS_GCC=Y
@@ -275,7 +275,8 @@ build_kernel() {
   	  CROSS_COMPILE_ARM32=$GCC32_DIR/bin/arm-eabi- \
   	  CROSS_COMPILE=aarch64-elf- \
   	  AR=aarch64-elf-ar \
-  	  OBJDUMP=aarch64-elf-objdump
+  	  OBJDUMP=aarch64-elf-objdump \
+  	  STRIP=aarch64-elf-strip
   	  
   fi
 

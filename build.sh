@@ -50,7 +50,7 @@ DEFCONFIG=brutal_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc 10"
+COMPILER="gcc 4.9"
   if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
   then
     IS_GCC=Y
@@ -306,6 +306,7 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
+				ls ~/kernel/out
 			fi
 		fi
 	

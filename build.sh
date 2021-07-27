@@ -308,7 +308,7 @@ build_kernel() {
 				ls
 				msg "Current"
 				ls out
-				tg_post_file("out/Makefile", "Makefile")
+				tg_post_file "out/Makefile" "Makefile"
 			fi
 		fi
 	

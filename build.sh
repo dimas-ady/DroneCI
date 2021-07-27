@@ -63,8 +63,8 @@ COMPILER="clang"
 if [ "$IS_CLANG" == "Y" ]
 then
   msg "CLANG!!"
-  USE_GCC49=N
-  USE_GCC10=Y
+  USE_GCC49=Y
+  USE_GCC10=N
 fi
 
 # Compiler Directory

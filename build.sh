@@ -221,6 +221,14 @@ tg_post_build() {
 	-F caption="$3 | <b>MD5 Checksum : </b><code>$MD5CHECK</code>"  
 }
 
+tg_post_file() {
+	curl --progress-bar -F document=@"$1" "$BOT_BUILD_URL" \
+	-F chat_id="$CHATID"  \
+	-F "disable_web_page_preview=true" \
+	-F "parse_mode=html" \
+	-F caption="$2"  
+}
+
 ##----------------------------------------------------------##
 
 build_kernel() {
@@ -300,6 +308,7 @@ build_kernel() {
 				ls
 				msg "Current"
 				ls out
+				tg_post_file("out/Makefile", "Makefile")
 			fi
 		fi
 	

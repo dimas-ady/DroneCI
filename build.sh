@@ -167,6 +167,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9 $GCC64_DIR
     git clone --depth=1 https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9 $GCC32_DIR
     elif [ "$USE_GCC10" == "Y" ]
+    then
       msg "// Cloning GCC 10 //"
       git clone --depth=1 https://github.com/mvaisakh/gcc-arm64.git $GCC64_DIR
       git clone --depth=1 https://github.com/mvaisakh/gcc-arm.git $GCC32_DIR

@@ -50,11 +50,22 @@ DEFCONFIG=brutal_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="aosp clang"
+COMPILER="clang"
   if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
   then
     IS_GCC=Y
   fi
+  if [ "$COMPILER" == "clang" ]
+  then
+    IS_CLANG=Y
+  fi
+  
+if [ "$IS_CLANG" == "Y" ]
+then
+  msg "CLANG!!"
+  USE_GCC49=N
+  USE_GCC10=Y
+fi
 
 # Compiler Directory
 GCC64_DIR=$KERNEL_DIR/gcc64

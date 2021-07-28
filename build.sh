@@ -50,7 +50,7 @@ DEFCONFIG=darkonah_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="gcc 10"
+COMPILER="clang"
   if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
   then
     IS_GCC=Y

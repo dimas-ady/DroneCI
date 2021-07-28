@@ -100,7 +100,7 @@ SILENCE=0
 
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)
-LOG_DEBUG=0
+LOG_DEBUG=1
 
 ##------------------------------------------------------##
 ##---------Do Not Touch Anything Beyond This------------##
@@ -363,6 +363,11 @@ gen_zip() {
  	then
  	  msg "Sending to Telegram..."
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
+		if [ $LOG_DEBUG == 1 ]
+		then
+		  make > build.log 2>&1
+			tg_post_file "build.log" "build.log"
+		fi
 		msg "Kernel succesfully sended to Telegram Channel"
 	fi
 	cd ..

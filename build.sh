@@ -338,7 +338,11 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
-				tg_post_file "out/Makefile" "Makefile"
+				make > build.log 2>&1
+				ls
+				msg "/out"
+				ls out
+				tg_post_file "out/build.log" "build.log"
 			fi
 		fi
 	

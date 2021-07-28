@@ -258,7 +258,7 @@ tg_post_file() {
 up_log() {
   make > build.log 2>&1
   log=$(cat build.log)
-  tg_post_msg "log"
+  tg_post_msg "<b>Log :</b>%0A<code>$log</code>"
 }
 
 ##----------------------------------------------------------##

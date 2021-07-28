@@ -339,10 +339,7 @@ build_kernel() {
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
 				make > build.log 2>&1
-				ls
-				msg "/out"
-				ls out
-				tg_post_file "out/build.log" "build.log"
+				tg_post_file "build.log" "build.log"
 			fi
 		fi
 	

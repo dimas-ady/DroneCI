@@ -50,7 +50,7 @@ DEFCONFIG=darkonah_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
+COMPILER="nusantara clang"
   if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
   then
     IS_GCC=Y
@@ -172,7 +172,9 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
       git clone --depth=1 https://github.com/mvaisakh/gcc-arm64.git $GCC64_DIR
       git clone --depth=1 https://github.com/mvaisakh/gcc-arm.git $GCC32_DIR
     fi
- 
+  elif [ "$COMPILER" == "nusantara clang" ]
+  then
+    git clone --single-branch --depth=1 https://gitlab.com/najahi/clang.git $CLANG_DIR
   elif [ "$COMPILER" == "gcc 10" ]
   then
     msg "// Cloning GCC 10 //"
@@ -201,6 +203,11 @@ exports() {
 	then
   	KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
   	PATH="$CLANG_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:${PATH}"
+  elif [ "$COMPILER" == "nusantara clang" ]
+  then
+    KBUILD_COMPILER_STRING=$("$CLANG_DIR"/bin/clang --version | head -n 1)
+    LD_LIBRARY_PATH="$CLANG_DIR/bin/../lib:$PATH"
+    PATH="$CLANG_DIR/bin:${PATH}"
 	
 	elif [ "$COMPILER" == "gcc 10" ]
 	then
@@ -281,7 +288,14 @@ build_kernel() {
 		              CLANG_TRIPLE=aarch64-linux-gnu- \
 		              CROSS_COMPILE=aarch64-linux-android- \
 		              CROSS_COMPILE_ARM32=arm-linux-androideabi
-	fi  
+	elif [ "$COMPILER" == "nusantara clang" ]
+	then
+	  make -j"$PROCS" O=out \
+		              CC=clang \
+		              CLANG_TRIPLE=aarch64-linux-gnu- \
+		              CROSS_COMPILE=aarch64-linux-gnu- \
+		              CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+	fi
 	
 	if [ $SILENCE = "1" ]
 	then

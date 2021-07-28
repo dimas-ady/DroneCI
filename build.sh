@@ -46,7 +46,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=brutal_defconfig
+DEFCONFIG=darkonah_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'

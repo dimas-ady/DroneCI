@@ -255,6 +255,12 @@ tg_post_file() {
 	-F caption="$2"  
 }
 
+up_log() {
+  make > build.log 2>&1
+  log=$(cat build.log)
+  tg_post_msg "log"
+}
+
 ##----------------------------------------------------------##
 
 build_kernel() {
@@ -338,8 +344,9 @@ build_kernel() {
 			if [ "$PTTG" = 1 ]
  			then
 				tg_post_msg "<b>❌ Build failed to compile after $((DIFF / 60)) minute(s) and $((DIFF % 60)) seconds</b>" "$CHATID"
-				make > build.log 2>&1
-				tg_post_file "build.log" "build.log"
+				#make > build.log 2>&1
+				#tg_post_file "build.log" "build.log"
+				up_log
 			fi
 		fi
 	
@@ -365,8 +372,9 @@ gen_zip() {
 		tg_post_build "$ZIP_FINAL" "$CHATID" "✅ Build took : $((DIFF / 60)) minute(s) and $((DIFF % 60)) second(s)"
 		if [ $LOG_DEBUG == 1 ]
 		then
-		  make > build.log 2>&1
-			tg_post_file "build.log" "build.log"
+		  #make > build.log 2>&1
+			#tg_post_file "build.log" "build.log"
+			up_log
 		fi
 		msg "Kernel succesfully sended to Telegram Channel"
 	fi

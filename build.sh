@@ -84,7 +84,7 @@ PTTG=1
 	fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
-DEF_REG=0
+DEF_REG=1
 
 # Build dtbo.img (select this only if your source has support to building dtbo.img)
 # 1 is YES | 0 is NO(default)
@@ -96,7 +96,7 @@ SIGN=0
 
 # Silence the compilation
 # 1 is YES(default) | 0 is NO
-SILENCE=0
+SILENCE=1
 
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)
@@ -281,6 +281,11 @@ build_kernel() {
 
 	BUILD_START=$(date +"%s")
 	
+	if [ $SILENCE = "1" ]
+	then
+		MAKE+=( -s )
+	fi
+	
 	if [ "$COMPILER" == "clang" ]
 	then
 		make -j"$PROCS" O=out \
@@ -295,11 +300,6 @@ build_kernel() {
 		              CLANG_TRIPLE=aarch64-linux-gnu- \
 		              CROSS_COMPILE=aarch64-linux-gnu- \
 		              CROSS_COMPILE_ARM32=arm-linux-gnueabi-
-	fi
-	
-	if [ $SILENCE = "1" ]
-	then
-		MAKE+=( -s )
 	fi
   
   if [ "$COMPILER" == "gcc 4.9" ]

@@ -62,7 +62,6 @@ COMPILER="clang"
   
 if [ "$IS_CLANG" == "Y" ]
 then
-  msg "CLANG!!"
   USE_GCC49=Y
   USE_GCC10=N
 fi
@@ -84,7 +83,7 @@ PTTG=1
 	fi
 
 # Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
-DEF_REG=1
+DEF_REG=0
 
 # Build dtbo.img (select this only if your source has support to building dtbo.img)
 # 1 is YES | 0 is NO(default)
@@ -96,7 +95,7 @@ SIGN=0
 
 # Silence the compilation
 # 1 is YES(default) | 0 is NO
-SILENCE=1
+SILENCE=0
 
 # Debug purpose. Send logs on every successfull builds
 # 1 is YES | 0 is NO(default)

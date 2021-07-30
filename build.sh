@@ -189,7 +189,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%T")
 ##------------------------------------------------------##
 
 exports() {
-	export KBUILD_BUILD_USER="DroneCI"
+	export KBUILD_BUILD_USER="DimasAdy-XZXZ"
 	export ARCH=arm64
 	export SUBARCH=arm64
    

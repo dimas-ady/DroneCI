@@ -50,8 +50,8 @@ DEFCONFIG=brutal_defconfig
 
 # Specify compiler. 
 # 'clang' or 'gcc'
-COMPILER="clang"
-  if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || $COMPILER == "gcc linaro" ]
+COMPILER="nusantara clang"
+  if [ "$COMPILER" == "gcc 4.9" || "$COMPILER" == "gcc 10" || "$COMPILER" == "gcc linaro" ]
   then
     IS_GCC=Y
   fi
